@@ -1,43 +1,85 @@
 import sqlite3
 from modelo.Libro import Libro
-# libreria SqlAlchemy, Django
-
-# crear una conexion
 from servicio.LibroRepo import LibroRepo
 
-libro=Libro(0,"libro5",123,"categoria")
-print("el valor ingresado es :",LibroRepo.insertar(libro))
+numero=20
+texto="hola"
+
+print("numero="+str(numero)+" texto="+texto)
+print("numero=%s texto=%s" % (numero,texto))
+print("numero={0} texto={1} {0}".format(numero,texto))
+print("numero=$numero texto=$texto")
+
+
+
+while True:
+    print("libros---------------")
+    print("1) insertar")
+    print("2) modificar")
+    print("3) eliminar")
+    print("4) listar")
+    opcion=input("seleccione su opcion:")
+    if(opcion=="4"):
+        libros=LibroRepo.listar_todo()
+        for libro in libros:
+            print(libro.Id,libro.Nombre,libro.Precio)
+    elif(opcion=="1"):
+        libro=Libro(0
+                    ,input("Ingrese nombre:")
+                    ,input("Ingrese precio:")
+                    ,input("Ingrese categoria:"))
+        id=LibroRepo.insertar(libro)
+        print("El id ingresado es",id)
+    elif(opcion=="2"):
+        # modificar
+        id=int(input("Ingrese id:"))
+        libro_base=LibroRepo.obtener(id)
+        nombre=input("Ingrese nombre: [%s]" % (libro_base.Nombre))
+        precio=input("Ingrese precio: [%s]" % (libro_base.Precio))
+        categoria=input("Ingrese categoria: [%s]" % (libro_base.Categoria))
+
+        libro=Libro(id,nombre,precio,categoria)
+
+        LibroRepo.modificar(libro)
+    elif(opcion=="3"):
+        id=int(input("Ingrese id:"))
+        LibroRepo.eliminar(id)
+
+
+
+
+# libro=Libro(0,"libro5",123,"categoria")
+# print("el valor ingresado es :",LibroRepo.insertar(libro))
 
 # lrepo=LibroRepo() # estoy creando una memoria y dentro de ella la funcion
 # libros_tuples=lrepo.listar_todo()
-libros_tuples=LibroRepo.listar_todo() # una funcion estatica se puede llamar sin crear una variable
+# una funcion estatica se puede llamar sin crear una variable
 
-libros_objetos=[]
-libros_diccionario=[]
+# libros_objetos=[]
+# libros_diccionario=[]
 
 #  ojb=Libro(2,"libro3",5555,"novela")
 
-for libro in libros_tuples:
+# for libro in libros_tuples:
     # * es para desempaquetar, tenemos un tuple y lo convertimos en 4 argumentos.
-    obj=Libro(*libro) # libro[0],libro[1],libro[2],libro[3]
-    libros_objetos.append(obj)
+#    obj=Libro(*libro) # libro[0],libro[1],libro[2],libro[3]
+#    libros_objetos.append(obj)
     # {} indica un set o diccionario
-    dic={"Id":libro[0],"Nombre":libro[1]
-        ,"Precio":libro[2],"Categoria":libro[3]}
-    libros_diccionario.append(dic)
+#    dic={"Id":libro[0],"Nombre":libro[1]
+#        ,"Precio":libro[2],"Categoria":libro[3]}
+#    libros_diccionario.append(dic)
 
 # tuples
-for libro in libros_tuples:
-    print(libro[1])
+# for libro in libros_tuples:
+#    print(libro[1])
 
 # diccionario
-for libro in libros_diccionario:
-    print(libro.get('Nombre')) # None (ningun valor)
+# for libro in libros_diccionario:
+#    print(libro.get('Nombre')) # None (ningun valor)
 
 
 # listado de objetos
-for libro in libros_objetos:
-    print(libro.Nombre)
+
 
 # clases, herencia, base de datos.
 
